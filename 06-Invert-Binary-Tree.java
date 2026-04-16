@@ -16,40 +16,60 @@
  *     }
  * }
  */
+
+// given: a binary tree
+// required: invert the binary tree and return it
+
+// constraints
+// number of nodes in [0, 100]
+// each value in [-100, 100]
+
+// DFS
+// tc: O(n), sc: O(height)
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        // // dfs
-        // // TC: O(n), SC: O(height)
-        // if(root == null) {
-        //     return root;
-        // }
-        // TreeNode temp = root.left;
-        // root.left = root.right;
-        // root.right = temp;
-        // invertTree(root.left);
-        // invertTree(root.right);
-        // return root;
-
-
-        // bfs
-        // TC: O(n), SC: O(n)
         if(root == null) {
             return root;
         }
-        Queue<TreeNode> q = new ArrayDeque<>();
-        q.offer(root);
-        while(!q.isEmpty()) {
-            TreeNode curr = q.poll();
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        invertTree(root.left);
+        invertTree(root.right);
+
+        return root;
+    }
+}
+
+
+
+// BFS
+// tc: O(n), sc: O(n)
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null) {
+            return root;
+        }
+
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        while(!queue.isEmpty()) {
+            TreeNode curr = queue.poll();
             TreeNode temp = curr.left;
             curr.left = curr.right;
             curr.right = temp;
+
             if(curr.left != null) {
-                q.offer(curr.left);
+                queue.offer(curr.left);
             }
             if(curr.right != null) {
-                q.offer(curr.right);
+                queue.offer(curr.right);
             }
         }
+
         return root;
     }
 }

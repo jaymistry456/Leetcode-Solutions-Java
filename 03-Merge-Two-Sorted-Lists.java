@@ -11,11 +11,21 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
+// given: heads of 2 sorted linked lists
+// required: merge the 2 sorted lists and return it
+
+// constraints
+// length of the lists in [0, 50]
+// lists contains integers
+// each value in [-100, 100]
+
+// tc: O(m+n), sc: O(1)
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        // TC: O(n), SC: O(1)
-        ListNode curr = new ListNode();
-        ListNode dummy = curr;
+        ListNode dummy = new ListNode();   // for returning result at the end
+        ListNode curr = dummy;
+
         while(list1 != null && list2 != null) {
             if(list1.val <= list2.val) {
                 curr.next = list1;
@@ -27,12 +37,15 @@ class Solution {
             }
             curr = curr.next;
         }
+
         if(list1 != null) {
             curr.next = list1;
         }
+
         if(list2 != null) {
             curr.next = list2;
         }
+
         return dummy.next;
     }
 }
