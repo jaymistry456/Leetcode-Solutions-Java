@@ -16,46 +16,61 @@
  *     }
  * }
  */
+
+// given: a binary tree
+// required: check whether it is height-balanced
+
+// constraints
+// no. of nodes in [0, 5000]
+// each value in [-10k, 10k]
+
+// tc: O(n^2), sc: O(height)
 class Solution {
-    // public int getHeight(TreeNode root) {
-    //     if(root == null) {
-    //         return 0;
-    //     }
-    //     return 1 + Math.max(getHeight(root.left), getHeight(root.right));
-    // }
-
-
-    public int dfs(TreeNode root) {
-        if(root == null) {
+    public int height(TreeNode curr) {
+        if(curr == null) {
             return 0;
         }
-        int leftHeight = dfs(root.left);
-        int rightHeight = dfs(root.right);
-        if(leftHeight == -1 || rightHeight == -1) {
-            return -1;
+        return 1 + Math.max(height(curr.left), height(curr.right));
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if(root == null) {
+            return true;
         }
+
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
         if(Math.abs(leftHeight - rightHeight) > 1) {
-            return -1;
+            return false;
         }
+
+        return isBalanced(root.left) && isBalanced(root.right);
+    }
+}
+
+
+
+// tc: O(n), sc: O(height)
+class Solution {
+    boolean balanced = true;
+
+    public int dfs(TreeNode curr) {
+        if(curr == null) {
+            return 0;
+        }
+
+        int leftHeight = dfs(curr.left);
+        int rightHeight = dfs(curr.right);
+        if(Math.abs(leftHeight - rightHeight) > 1) {
+            balanced = false;
+        }
+
         return 1 + Math.max(leftHeight, rightHeight);
     }
 
     public boolean isBalanced(TreeNode root) {
-        // // brute-force
-        // // TC: O(n^2), SC: O(height)
-        // if(root == null) {
-        //     return true;
-        // }
-        // int leftHeight = getHeight(root.left);
-        // int rightHeight = getHeight(root.right);
-        // if(Math.abs(leftHeight - rightHeight) > 1) {
-        //     return false;
-        // }
-        // return isBalanced(root.left) && isBalanced(root.right);
+        dfs(root);
 
-
-        // optimal
-        // TC: O(n), SC: O(height)
-        return dfs(root) != -1;
+        return balanced;
     }
 }

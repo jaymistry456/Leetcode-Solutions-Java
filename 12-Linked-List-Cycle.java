@@ -12,26 +12,40 @@
  *     }
  * }
  */
+
+// given: a linked list
+// required: check if the linked list has a cycle
+
+// constraints
+// number of nodes in [0, 10k]
+// each value in [-100k, 100k]
+
+// tc: O(n), sc: O(n)
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        // // brute-force
-        // // TC: O(n), SC: O(n)
-        // ListNode curr = head;
-        // Set<ListNode> set = new HashSet<>();
-        // while(curr != null) {
-        //     if(set.contains(curr)) {
-        //         return true;
-        //     }
-        //     set.add(curr);
-        //     curr = curr.next;
-        // }
-        // return false;
+        Set<ListNode> set = new HashSet<>();
+
+        ListNode curr = head;
+        while(curr != null) {
+            if(set.contains(curr)) {
+                return true;
+            }
+            set.add(curr);
+            curr = curr.next;
+        }
+
+        return false;
+    }
+}
 
 
-        // optimal
-        // TC: O(n), SC: O(1)
+
+// tc: O(n), sc: O(1)
+public class Solution {
+    public boolean hasCycle(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
+
         while(fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
@@ -39,6 +53,7 @@ public class Solution {
                 return true;
             }
         }
+
         return false;
     }
 }
